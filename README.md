@@ -231,31 +231,271 @@ Outputs:
 - Timing, Noise, and Power Libraries: Generated during characterization.
 
 ## Day 3
+### Design library cell using Magic Layout and Ngspice characterization
+To view the CMOS inverter layout in MAGIC and refer to the necessary cell files, follow these steps:
+
+1. Clone the Custom Inverter Layout
+``` 
+cd Desktop/work/tools/openlane_working_dir/openlane
+git clone https://github.com/nickson-jose/vsdstdcelldesign.git
+```
 ![image](./images/clonerepo.png)
 ![image](./images/repo.png)
+
+2. Navigate to the Inverter Layout Directory
+Change to the directory where the layout files are located:
+
+```
+cd vsdstdcelldesign
+cp sky130A.tech /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
+```
+![alt text](cplibfilestosrc-1.png)
+3. Open the Inverter Layout in MAGIC
+To open the inverter layout in MAGIC, use the following command:
+```
+magic -T sky130A.tech sky130_inv.mag &
+```
 ![image](./images/magicinverter.png)
 ![image](./images/selctnmosregion.png)
-![image](./images/extractall.png)
+
+4. Perform SPICE Extraction in MAGIC
+To extract the SPICE netlist from the layout, follow these commands inside the MAGIC tool:
+
+```
+extract all
+ext2spice cthresh 0 rthresh 0
+ext2spice
+```
 ![image](./images/extractall.png)
 ![image](./images/Screenshot 2024-09-29 233428.png images/extractall.png)
-![image](./images/fatalerror.png)
-![image](./images/fatalerror.png)
-![alt text](spicefile.png) 
-![alt text](drc_ckeck.png)
-![alt text](opentrackfile.png) 
-![alt text](plot.png)
-![alt text](<Screenshot 2024-09-30 131732.png>)
-![alt text](openmagictool-1.png) 
-![alt text](openm3magfile.png) 
-![alt text](<Screenshot 2024-09-30 152355.png>) 
-![alt text](<Screenshot 2024-09-30 154232.png>) 
-![alt text](loadpoly.png) 
-![alt text](<Screenshot 2024-09-30 154602.png>) 
-![alt text](<Screenshot 2024-09-30 160129.png>) 
-![alt text](poly9check.png) ![alt text](drc_check.png)
+![alttext](./images/spicefile.png)
 
+### loading spice file for ngspice simulation and make a plot
+```
+ngspice sky130_inv.spice
+plot y vs a
+```
+![alt text](./images/fatalerror.png)
+![alt text](./images/plot-1.png)
+![image](./images/Screenshot 2024-09-30 131732-1.png)
+
+## Create a LEF file
+### Here are some examples of DRC errors
+
+M3.1 - Metal Width DRC Violation:
+Violation: The width of the metal trace in this layout does not meet the minimum width requirement as specified by the design rules.
+Error: Metal width is too narrow, which can lead to issues like higher resistance or failure during fabrication.
+
+M3.2 - Metal Spacing DRC Violation:
+Violation: The distance between adjacent metal traces in M3.2 is below the required spacing, violating the metal spacing design rule.
+Error: Metal traces are placed too close together, which can lead to short circuits or reliability issues.
+
+M3.5 - Via Overlapping DRC Violation:
+Violation: Vias in M3.5 overlap with each other, breaking the rule that mandates minimum spacing between vias.
+Error: Overlapping vias can cause connectivity issues and structural problems in the layout.
+
+M3.6 - Minimum Area DRC Violation:
+Violation: The enclosed area in M3.6 does not meet the required minimum area threshold as per design rules.
+Error: Minimum area violation, which may lead to insufficient current-carrying capacity and reliability concerns.
+
+These types of DRC violations must be addressed during physical verification to ensure the design is manufacturable and reliable.
+
+To open the Magic Tool use this command
+```
+magic -d XR &
+```
+![openmagictool](./images/openmagictool-2.png)
+
+Open the met3.mag file in magic tool
+![metal3](./images/openm3magfile.png) 
+![alt text](<Screenshot 2024-09-30 152355.png>)
+
+#### Steps for Poly.9 Rule Correction:
+1. Check Poly Spacing:
+Ensure that the spacing between polysilicon structures meets the minimum distance specified by the design rules. For example, if the minimum poly spacing is defined as 0.15 microns, make sure there is no violation of this minimum distance.
+
+2. Adjust Poly Width:
+The width of the polysilicon lines must meet the minimum width requirement. Ensure the poly lines are wide enough as per the rule, typically in the range of 0.15 microns or larger (depending on technology node).
+
+3. Correct Poly-to-Diffusion Overlap:
+Ensure that there is proper overlap between the polysilicon and diffusion regions (source/drain). Incorrect overlap can lead to improper transistor operation or manufacturing defects.
+
+4. Check Poly over Gate Region:
+In the gate regions of transistors, make sure that the poly layer extends appropriately over the active area to ensure proper gate formation. Ensure the poly is aligned and does not violate the minimum overlap rules for the gate oxide.
+5. Run DRC:
+After making the corrections, run the DRC again to check if the poly.9 rule violation has been resolved.
+
+5. Adjust Layout as Needed:
+If there are still violations after initial corrections, further tweak the layout by either increasing the poly spacing, adjusting alignment, or modifying the dimensions to meet the specified design rules.
+
+![alt text](<Screenshot 2024-09-30 154232.png) 
+![alt text](loadpoly.png) 
+![alt text](<Screenshot 2024-09-30 154602.png) 
+
+To update the DRC insert the few commands in our file
+![updatedrc](./images/Screenshot 2024-09-30 160129-1.png)
+
+Use followig commands  to run in tkcon window
+```
+ # Loading updated tech file
+   tech load sky130A.tech
+
+ # Must re-run drc check to see updated drc errors
+  drc check
+
+ # Selecting region displaying the new errors and getting the error messages 
+  drc why
+```
+Here are the snapshots of DRC checks
+
+![alt text](./images/poly9check-1.png)
+![alt text](./images/drc_check-1.png)
+![alt text](./images/drc_ckeck-1.png)
+ 
 
 ## Day 4
+### Pre-layout Timing Analysis and Importance of Good Clock Tree
+![trackfile](./images/opentrackfile.png)
+
+
+Open the custom inverter layout
+```
+#Change the directory to vsdstdcelldesign
+cd Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
+
+#Open the inverter layout in magic tool
+magic -T sky130A.tech sky130_inv.mag &
+
+#Change the directory to tracks.info path
+cd Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/openlane/sky130_fd_sc_hd
+```
+
+#### Use the following commands Commands for tkcon window to set grid as tracks of locali layer
+
+```
+help grid
+grid 0.46um 0.34um 0.23um 0.17um
+```
+![alt text](./images/Screenshot 2024-10-01 130045-1.png)
+![alt text](./images/Screenshot 2024-10-01 130633-1.png)
+
+
+Save the lef file using this command
+```
+save sky130_vsdinv.mag
+```
+![leffile](./images/Screenshot%202024-10-01%20131806.png)
+
+![leffile](./images/Screenshot%202024-10-01%20131919.png)
+
+#### lef command
+```
+lef write
+```
+![alt text](<Screenshot 2024-10-01 131723-2.png>)
+
+Snapshot of .lef file
+
+![alt text](<Screenshot 2024-10-01 131919-1.png>)
+![alt text](<Screenshot 2024-10-01 131806-1.png>)
+
+Now copy the lef file to src
+
+```
+cp sky130_vsdinv.lef ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/
+```
+![image](./images/cplibfilestosrc.png)
+
+#### Now we have to use the following commands to be added to config.tcl to include our custom cell in the openlane flow
+
+```
+set ::env(LIB_SYNTH) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+set ::env(LIB_FASTEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__fast.lib"
+set ::env(LIB_SLOWEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__slow.lib"
+set ::env(LIB_TYPICAL) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+
+set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/src/*.lef]
+
+```
+Now run the synthesis using `run_synthesis`
+
+![images](./images/runsynthesis.png)
+![images](./images/Screenshot%202024-10-01%20145736.png)
+
+#### We will use following commands to  improve timing and run synthesis
+
+
+```
+prep -design picorv32a -tag 30-09_04-44 -overwrite
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+echo $::env(SYNTH_STRATEGY)
+set ::env(SYNTH_STRATEGY) "DELAY 3"
+echo $::env(SYNTH_BUFFERING)
+echo $::env(SYNTH_SIZING)
+set ::env(SYNTH_SIZING) 1
+echo $::env(SYNTH_DRIVING_CELL)
+```
+
+`run_synthesis`
+
+![images](./images/chiparea.png)
+![images](./images/Screenshot%202024-10-01%20152614.png)
+![images](./images/Screenshot%202024-10-01%20153620.png)
+
+#### now run floorplan using `run_floorplan`
+But it fails. Instead we can use these commands to run floorplan
+```
+init_floorplan
+place_io
+tap_decap_or
+
+```
+Now run placement using `run_placement`
+
+![images](./images/Screenshot%202024-10-01%20190308.png)
+![images](./images/placementzoom.png)
+
+```
+# Command to view internal connectivity layers in tkcon window
+expand
+```
+![images](./images/Screenshot%202024-10-01%20191608.png)
+
+### Perform post-synthesis timing analysis using the OpenSTA tool 
+
+mybase.sdc
+```
+```
+This is a presta snapshot
+![images](./images/presta.png)
+
+Now slack is reduced
+![images](./images/reduceslack.png)
+
+Again `run_synthesis`
+
+![images](./images/Screenshot%202024-10-02%20011848.png)
+
+After Slack MET run floorplan and placement
+
+![images](./images/Screenshot%202024-10-02%20012043.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ![alt text](./images/opentrackfile-1.png)
 ![alt text](/images/Screenshot%202024-10-02%20160632.png)
 ![alt text](/images/Screenshot%202024-10-02%20155618.png)
