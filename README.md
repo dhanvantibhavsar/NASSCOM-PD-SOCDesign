@@ -1,7 +1,8 @@
 # Digital VLSI SoC Design and planning Training
 ## Overview
 This repository contains my work on System-on-Chip (SoC) design, following the methodologies used in the NASSCOM VSD SoC Design Program.
-Internship provided by :- VLSI System Design
+
+Internship provided by :- VLSI System Design \
 Internship Date:- 17 Sept 2024 to 2 Oct 2024
 
 ## Acknowledgements
