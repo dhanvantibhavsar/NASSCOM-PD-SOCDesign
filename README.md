@@ -1,6 +1,12 @@
 # Digital VLSI SoC Design and planning Training
 ## Overview
 This repository contains my work on System-on-Chip (SoC) design, following the methodologies used in the NASSCOM VSD SoC Design Program.
+Internship provided by :- VLSI System Design
+Internship Date:- 17 Sept 2024 to 2 Oct 2024
+
+## Acknowledgements
+[kunal Ghosh](https://github.com/kunalg123),Co-founder, VSD Corp. Pvt. Ltd.
+[]
 
 ## Tools Used
 - Verilog for RTL design.
@@ -27,8 +33,7 @@ This repository contains my work on System-on-Chip (SoC) design, following the m
 
    Physical design consists of multiple stages, each with its own mandatory checks, analyses, and verifications. Here is a detailed information.
 
-   ![PD FLOW](./images/pdflow.png)
-   ![PD FLOW](./images/pdflow2png.png)
+   ![PD FLOW](./images/rtltogds.png)
 
 ## Import Design or NetlistIn
 The first step in the physical design flow is the Import Design or NetlistIn phase. Here, all relevant design files and constraint files are imported, including the netlist, SDC (Synopsys Design Constraints), UPF (Unified Power Format), DEF (Design Exchange Format), technology files, logical and physical libraries, and TLU+ files.
@@ -60,11 +65,11 @@ Ensuring no DRC errors exist.
 Minimizing total wire length.
 Routing consists of several stages:
 
-a) Global Routing
-b) Detailed Routing
-b) Track Assignment
-c) Detailed Routing
-d) Search and Repair
+a) Global Routing \
+b) Detailed Routing \
+b) Track Assignment \
+c) Detailed Routing \
+d) Search and Repair 
 
 ## Physical Verification and Signoff
 After routing, the layout is prepared for the Physical Verification and Signoff stage. Here, various signoff checks are performed, including physical verification, timing analysis, and logical equivalence checking. Key physical verification checks include:
@@ -267,7 +272,9 @@ ext2spice cthresh 0 rthresh 0
 ext2spice
 ```
 ![image](./images/extractall.png)
-![image](./images/Screenshot 2024-09-29 233428.png images/extractall.png)
+
+![image](./images/Screenshot%202024-09-29%20233428.png)
+
 ![alttext](./images/spicefile.png)
 
 ### loading spice file for ngspice simulation and make a plot
@@ -276,8 +283,10 @@ ngspice sky130_inv.spice
 plot y vs a
 ```
 ![alt text](./images/fatalerror.png)
-![alt text](./images/plot-1.png)
-![image](./images/Screenshot 2024-09-30 131732-1.png)
+
+![alt text](./images/plot.png)
+
+![image](./images/Screenshot%202024-09-30%20131732.png)
 
 ## Create a LEF file
 ### Here are some examples of DRC errors
@@ -304,11 +313,11 @@ To open the Magic Tool use this command
 ```
 magic -d XR &
 ```
-![openmagictool](./images/openmagictool-2.png)
+![openmagictool](./images/openmagictool.png)
 
 Open the met3.mag file in magic tool
 ![metal3](./images/openm3magfile.png) 
-![alt text](<Screenshot 2024-09-30 152355.png>)
+![alt text](./images/Screenshot%202024-09-30%20152355.png)
 
 #### Steps for Poly.9 Rule Correction:
 1. Check Poly Spacing:
@@ -328,12 +337,12 @@ After making the corrections, run the DRC again to check if the poly.9 rule viol
 5. Adjust Layout as Needed:
 If there are still violations after initial corrections, further tweak the layout by either increasing the poly spacing, adjusting alignment, or modifying the dimensions to meet the specified design rules.
 
-![alt text](<Screenshot 2024-09-30 154232.png) 
-![alt text](loadpoly.png) 
-![alt text](<Screenshot 2024-09-30 154602.png) 
+![alt text](./images/Screenshot%202024-09-30%20154232.png) 
+![alt text](./images/loadpoly.png) 
+![alt text](./Screenshot%202024-09-30%20154602.png) 
 
 To update the DRC insert the few commands in our file
-![updatedrc](./images/Screenshot 2024-09-30 160129-1.png)
+![updatedrc](./images/Screenshot%202024-09-30%20160129.png)
 
 Use followig commands  to run in tkcon window
 ```
@@ -348,9 +357,9 @@ Use followig commands  to run in tkcon window
 ```
 Here are the snapshots of DRC checks
 
-![alt text](./images/poly9check-1.png)
-![alt text](./images/drc_check-1.png)
-![alt text](./images/drc_ckeck-1.png)
+![alt text](./images/poly9check.png)
+![alt text](./images/drc_check.png)
+![alt text](./images/drc_ckeck.png)
  
 
 ## Day 4
@@ -376,8 +385,8 @@ cd Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/openlane/sky13
 help grid
 grid 0.46um 0.34um 0.23um 0.17um
 ```
-![alt text](./images/Screenshot 2024-10-01 130045-1.png)
-![alt text](./images/Screenshot 2024-10-01 130633-1.png)
+![alt text](./images/Screenshot%202024-10-01%20130045.png)
+![alt text](./images/Screenshot%202024-10-01%20130633.png)
 
 
 Save the lef file using this command
@@ -483,50 +492,56 @@ After Slack MET run floorplan and placement
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-![alt text](./images/opentrackfile-1.png)
-![alt text](/images/Screenshot%202024-10-02%20160632.png)
-![alt text](/images/Screenshot%202024-10-02%20155618.png)
-![alt text](/images/Screenshot%202024-10-02%20152848.png)
-![alt text](/images/openroad.png)
-![alt text](/images/Screenshot%202024-10-02%20012258.png)
-![alt text](/images/Screenshot%202024-10-02%20012131.png)
-![alt text](/images/Screenshot%202024-10-02%20012043.png)
-![alt text](/images/Screenshot%202024-10-02%20011848.png)
-![alt text](/images/reduceslack.png)
-![alt text](/images/presta.png)
-![alt text](/images/Screenshot%202024-10-01%20191608.png)
-![alt text](/images/placementzoom.png)
-![alt text](/images/Screenshot%202024-10-01%20190308.png)
-![alt text](/images/Screenshot%202024-10-01%20153931.png)
-![alt text](/images/Screenshot%202024-10-01%20153620.png)
-![alt text](/images/Screenshot%202024-10-01%20152614.png)
-![alt text](/images/chiparea.png)
-![alt text](/images/Screenshot%202024-10-01%20145736.png)
-![alt text](/images/runsynthesis.png)
-![alt text](/images/cplibfilestosrc.png)
-![alt text](/images/Screenshot%202024-10-01%20131919.png)
-![alt text](/images/Screenshot%202024-10-01%20131806.png)
-![alt text](/images/Screenshot%202024-10-01%20131723.png)
-![alt text](/images/Screenshot%202024-10-01%20130633.png)
-![alt text](/images/Screenshot%202024-10-01%20130045.png)
-
 ## Day 5
-![alt text](./images/Screenshot%202024-10-03%20010633.png)
-![alt text](./images/Screenshot%202024-10-03%20010433.png)
-![alt text](./images/Screenshot%202024-10-03%20010409.png)
-![alt text](./images/Screenshot%202024-10-03%20005956.png)
-![alt text](./images/Screenshot%202024-10-03%20005835.png)
-![alt text](./images/Screenshot%202024-10-02%20161229.png)
+### Task- To generate Power Distribution Network (PDN) and load the layout and Perform detailed routing
+1. Generate PDN (Power Delivery Network)
+The Power Delivery Network (PDN) ensures that power (VDD) and ground (VSS) are properly distributed across the chip. OpenLane provides an automated way to generate the PDN.
+
+#### Steps to Generate PDN in OpenLane
+1. Invoke the OpenLane flow: If you haven't already, start by invoking OpenLane in interactive mode:
+``cd Desktop/work/tools/openlane_working_dir/openlane
+``
+2. Set the design and configuration
+```
+prep -design picorv32a
+```
+3. Addiitional commands to include newly added lef to openlane flow merged.lef
+```
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+```
+4. Generate PDN
+``` 
+gen_pdn
+```
+![alt text](<Screenshot 2024-10-02 011848-1.png>)
+
+####  Perform Detailed Routing
+Detailed routing connects the placed standard cells using metal layers according to the routing constraints, ensuring that signal and power nets are properly wired without design rule violations.
+Steps 
+1. Ensure you have the placement and CTS completed: Before starting routing, make sure the placement and clock tree synthesis (CTS) steps are successfully completed. If not, run:
+```
+run_placement
+run_cts
+```
+c:\Users\ankit\OneDrive\Desktop\dhanvanti\nasscon_sep\Screenshot 2024-10-02 161229.png c:\Users\ankit\OneDrive\Desktop\dhanvanti\nasscon_sep\Screenshot 2024-10-02 160632.png c:\Users\ankit\OneDrive\Desktop\dhanvanti\nasscon_sep\Screenshot 2024-10-02 155618.png
+
+2. run detailed routing
+```
+run_routing
+```
+![routing](./images/Screenshot%202024-10-03%20005835.png)
+![routing](./images/Screenshot%202024-10-03%20005956.png)
+![routing](./images/Screenshot%202024-10-03%20010633.png)
+
+### post routing STA
+
+![routing](./images/Screenshot%202024-10-03%20010409.png)
+![routing](./images/Screenshot%202024-10-03%20010433.png)
+
+
+
+
+
+
+
