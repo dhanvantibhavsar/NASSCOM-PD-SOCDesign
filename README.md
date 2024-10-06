@@ -5,8 +5,9 @@ Internship provided by :- VLSI System Design
 Internship Date:- 17 Sept 2024 to 2 Oct 2024
 
 ## Acknowledgements
-[kunal Ghosh](https://github.com/kunalg123),Co-founder, VSD Corp. Pvt. Ltd.
-[]
+[kunal Ghosh](https://github.com/kunalg123),Co-founder, VSD Corp. Pvt. Ltd. \
+[Nickson P Jose](https://github.com/nickson-jose) Technical Lead @ HCLTech | Ex-Intel \
+[R. Timothy Edwards](https://github.com/RTimothyEdwards) Senior Vice President of Analog and Design, efabless Corporation.
 
 ## Tools Used
 - Verilog for RTL design.
